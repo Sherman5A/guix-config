@@ -17,6 +17,7 @@
              (gnu packages terminals)
              (gnu packages version-control)
              (gnu packages ssh)
+             (gnu packages gnupg)
              (gnu services lightdm)
              (gnu services pm))
 (use-service-modules desktop sddm xorg)
@@ -87,6 +88,8 @@
                      helix
                      git
                      openssh
+                     gnupg
+                     pinentry-tty
                      tlp) %base-packages))
 
   ;; XFCE only
