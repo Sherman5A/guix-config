@@ -90,6 +90,8 @@
                      gvfs
                      font-terminus
                      xfce4-whiskermenu-plugin
+		     kanshi
+		     swaybg
                      foot
                      labwc
                      emacs
