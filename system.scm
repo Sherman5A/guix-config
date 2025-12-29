@@ -21,7 +21,9 @@
              (gnu packages gnupg)
              (gnu services lightdm)
              (gnu services ssh)
-             (gnu services pm))
+             (gnu services pm)
+             (gnu packages kde-frameworks))
+             (packages wm)
 (use-service-modules desktop sddm xorg)
 (use-package-modules gnome)
 
@@ -90,14 +92,16 @@
                      gvfs
                      font-terminus
                      xfce4-whiskermenu-plugin
-		     kanshi
-		     swaybg
+                     kanshi
+                     swaybg
                      foot
                      labwc
+                     sfwbar
                      emacs
                      htop
-                     btop
                      helix
+                     breeze-icons
+                     font-adobe-source-code-pro
                      git
                      openssh
                      gnupg

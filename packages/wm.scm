@@ -1,4 +1,4 @@
-(define-module (sfwbar)
+(define-module (packages wm)
   #:use-module (guix)
   #:use-module ((guix licenses)
                 #:prefix license:)
@@ -41,5 +41,5 @@
 
 ;; This allows you to run guix shell -f guix-packager.scm.
 ;; Remove this line if you just want to define a package.
-sfwbar
+;; sfwbar
 
