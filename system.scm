@@ -6,6 +6,7 @@
 (use-modules (nongnu packages linux)
              (nongnu system linux-initrd))
 (use-modules (gnu)
+             (gnu packages python)
              (gnu system nss)
              (guix utils)
              (gnu packages linux)
@@ -22,8 +23,8 @@
              (gnu services lightdm)
              (gnu services ssh)
              (gnu services pm)
-             (gnu packages kde-frameworks))
-             (packages wm)
+             (gnu packages gnome-xyz)
+             (holo wm))
 (use-service-modules desktop sddm xorg)
 (use-package-modules gnome)
 
@@ -93,6 +94,7 @@
                      font-terminus
                      xfce4-whiskermenu-plugin
                      kanshi
+                     brightnessctl
                      swaybg
                      foot
                      labwc
@@ -100,7 +102,7 @@
                      emacs
                      htop
                      helix
-                     breeze-icons
+                     papirus-icon-theme
                      font-adobe-source-code-pro
                      git
                      openssh
@@ -118,6 +120,7 @@
 			    (authorized-keys
 			      `(("jake" ,(local-file "windows-ssh.pub")))
 			  )))
+        (udev-rules-service `brightnessctl brightnessctl)
 	     	(service greetd-service-type
                           (greetd-configuration (greeter-supplementary-groups (list
                                                                                "video"
