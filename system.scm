@@ -1,6 +1,6 @@
 ;; -*- mode: scheme; -*-
 ;; This is an operating system configuration template
-;; for a "desktop" setup with GNOME and Xfce where the
+;; for a "desktop" setup with labwc where the
 ;; root partition is encrypted with LUKS, and a swap file.
 
 (use-modules (nongnu packages linux)
@@ -24,8 +24,11 @@
              (gnu services ssh)
              (gnu services pm)
              (gnu packages gnome-xyz)
+             (gnu packages xorg)
+             (gnu packages virtualization)
+             (holo gtk)
              (holo wm))
-(use-service-modules desktop sddm xorg)
+(use-service-modules desktop sddm xorg virtualization spice)
 (use-package-modules gnome)
 
 (define %default-console-font
@@ -43,8 +46,7 @@
   (timezone "Europe/London")
   (locale "en_GB.utf8")
 
-  ;; Choose US English keyboard layout.  The "altgr-intl"
-  ;; variant provides dead keys for accented characters.
+  ;; Choose GB English keyboard layout.
   (keyboard-layout (keyboard-layout "gb"))
 
   ;; Use the UEFI variant of GRUB with the EFI System
@@ -82,7 +84,7 @@
                  (name "jake")
                  (password (crypt "alice" "$6$abc"))
                  (group "users")
-                 (supplementary-groups '("wheel" "netdev" "audio" "video")))
+                 (supplementary-groups '("wheel" "netdev" "audio" "video" "libvirt")))
                %base-user-accounts))
 
   ;; (groups %base-groups)
@@ -92,27 +94,30 @@
                      ;; for user mounts
                      gvfs
                      font-terminus
-                     xfce4-whiskermenu-plugin
                      kanshi
                      brightnessctl
                      swaybg
                      foot
                      labwc
                      sfwbar
-                     emacs
+                     emacs-next-pgtk
                      htop
                      helix
                      papirus-icon-theme
+                     arc-theme
+                     raleigh-theme
+                     hackneyed-x11-cursors
                      font-adobe-source-code-pro
                      git
                      openssh
                      gnupg
+                     virt-manager
                      pinentry-tty
                      tlp) %base-packages))
 
-  ;; XFCE only
+  ;; labwc only
   ;; Uses "desktop" services, which
-  ;; include the X11 log-in service, networking with
+  ;; include the log-in service, networking with
   ;; NetworkManager, and more.
   (services
    (append (list (service openssh-service-type
@@ -121,6 +126,9 @@
 			      `(("jake" ,(local-file "windows-ssh.pub")))
 			  )))
         (udev-rules-service `brightnessctl brightnessctl)
+        (service libvirt-service-type)
+        (service virtlog-service-type)
+        (service spice-vdagent-service-type)
 	     	(service greetd-service-type
                           (greetd-configuration (greeter-supplementary-groups (list
                                                                                "video"
@@ -175,12 +183,16 @@
              (guix-service-type config =>
                                 (guix-configuration (inherit config)
                                                     (substitute-urls (append (list
-                                                                              "https://substitutes.nonguix.org")
+                                                                              "https://cache-test.guix.moe"
+                                                                              "https://cache-fi.guix.moe/"
+                                                                              "https://nonguix-proxy.ditigal.xyz"
+                                                                              )
                                                                       %default-substitute-urls))
                                                     (authorized-keys (append (list
                                                                               (plain-file
                                                                                "non-guix.pub"
-                                                                               "(public-key (ecc (curve Ed25519) (q #C1FD53E5D4CE971933EC50C9F307AE2171A2D3B52C804642A7A35F84F3A4EA98#)))"))
+                                                                               "(public-key (ecc (curve Ed25519) (q #C1FD53E5D4CE971933EC50C9F307AE2171A2D3B52C804642A7A35F84F3A4EA98#)))")
+                                                                              (plain-file "guix-moe.pub" "(public-key (ecc (curve Ed25519) (q #552F670D5005D7EB6ACF05284A1066E52156B51D75DE3EBD3030CD046675D543#)))"))
                                                                       %default-authorized-guix-keys)))))))
   ;; Allow resolution of '.local' host names with mDNS.
   (name-service-switch %mdns-host-lookup-nss))
