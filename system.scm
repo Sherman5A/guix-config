@@ -100,7 +100,6 @@
                      foot
                      labwc
                      sfwbar
-                     emacs-next-pgtk
                      htop
                      helix
                      papirus-icon-theme
