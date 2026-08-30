@@ -79,27 +79,7 @@
       (flags '(no-atime))
       (options "subvol=@var_log,compress=zstd"))
      (file-system
-      (device (uuid "2CDBE1A85447D6A8" 'ntfs))
-      (mount-point "/home/jake/mnt/backups/windows-1")
-      (type "ntfs")
-      (options "uid=1000,gid=1000,dmask=022,fmask=133 0 0"))
-     (file-system
-      (device (uuid "117C86E67259A8DA" 'ntfs))
-      (mount-point "/home/jake/mnt/backups/windows-2")
-      (type "ntfs")
-      (options "uid=1000,gid=1000,dmask=022,fmask=133 0 0"))
-     (file-system
-      (device (uuid "7E46073C089EA7F6" 'ntfs))
-      (mount-point "/home/jake/mnt/backups/windows-3")
-      (type "ntfs")
-      (options "uid=1000,gid=1000,dmask=022,fmask=133 0 0"))
-     (file-system
-      (device (uuid "325FA91828E9EB17" 'ntfs))
-      (mount-point "/home/jake/mnt/backups/windows-4")
-      (type "ntfs")
-      (options "uid=1000,gid=1000,dmask=022,fmask=133 0 0"))
-     (file-system
-      (device (uuid "4915-3B49" 'fat))
+      (device (uuid "F400-7CD6" 'fat))
       (mount-point "/efi")
       (type "vfat"))) 
     %base-file-systems))
@@ -107,11 +87,10 @@
   ;; root file system.
   (swap-devices (list (swap-space (target (uuid "736d3da0-2b3d-4941-9a8b-e322a93005d5")))))
   ;; Create user with.
-  (users (cons (user-account
-        (name "jake")
-                (password (crypt "alice" "$6$abc"))
-                (group "users")
-                (supplementary-groups '("wheel" "netdev" "audio" "video")))
+  (users (cons (user-account	
+        (name "test")
+        (group "users")
+         (supplementary-groups '("wheel" "netdev" "audio" "video")))
            %base-user-accounts))
   ;; (groups %base-groups)
   ;; This is where we specify system-wide packages.
