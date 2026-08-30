@@ -1,14 +1,8 @@
 ;; -*- mode: scheme; -*-
-;; This is an operating system configuration template
-;; for a "desktop" setup with labwc where the
-;; root partition is encrypted with LUKS, and a swap file.
 
-(use-modules (nongnu packages linux)
-             (nongnu system linux-initrd))
 (use-modules (gnu)
              (gnu packages python)
              (gnu system nss)
-             (guix utils)
              (gnu packages linux)
              (gnu packages xfce)
              (gnu packages wm)
@@ -25,9 +19,11 @@
              (gnu services pm)
              (gnu packages gnome-xyz)
              (gnu packages xorg)
+             (guix utils)
              (holo gtk)
-             (holo wm))
-
+             (holo wm)
+             (nongnu packages linux)
+             (nongnu system linux-initrd))
 (use-service-modules desktop sddm xorg virtualization spice)
 (use-package-modules gnome)
 
@@ -49,84 +45,92 @@
   ;; Use the UEFI variant of GRUB with the EFI System
   ;; Partition mounted on /efi.
   (bootloader (bootloader-configuration
-	       (bootloader grub-efi-bootloader)
-	       (targets '("/efi"))
-	       (keyboard-layout keyboard-layout)))
+    (bootloader grub-efi-bootloader)
+    (targets '("/efi"))
+    (keyboard-layout keyboard-layout)
+    (menu-entries
+     (list 
+      (menu-entry
+       (label "Windows")
+       (device (uuid "" 'fat))
+       (chainloader "/efi/Microsoft/Boot/bootmgfw.efi"))))))
   (file-systems
-   (append (list (file-system
-		  (device (uuid ""))
-		  (mount-point "/")
-		  (type "btrfs")
-		  (options "subvol=@,defaults,noatime,compress=zstd"))
-		 (file-system
-		  (device (uuid ""))
-		  (mount-point "/home")
-		  (type "btrfs")
-		  (options "subvol=@home,defaults,noatime,compress=zstd"))
-		 (file-system
-		  (device (uuid ""))
-		  (mount-point "/gnu")
-		  (type "btrfs")
-		  (options "subvol=@gnu,defaults,noatime,compress=zstd"))
-		 (fle-system
-		  (device (uuid ""))
-		  (mount-point "/var/log")
-		  (type "btrfs")
-		  (options "subvol=@var_log,defaults,noatime,compress=zstd"))
-		 (file-system
-		  (device (uuid ""))
-		  (mount-point "/home/jake/mnt/local/ssd-2")
-		  (type "btrfs")
-		  (options "noatime,defaults,compress=zstd"))
-		 (file-system
-		  (device (uuid ""))
-		  (mount-point "/home/jake/mnt/local/ssd-1")
-		  (type "btrfs")
-		  (options "noatime,defaults,compress=zstd"))
-		 (file-system
-		  (device (uuid ""))
-		  (mount-point "/home/jake/mnt/local/hdd")
-		  (type "btrfs")
-		  (options "noatime,compress=zstd,autodefrag"))
-		 (file-system
-		  (device (uuid ""))
-		  (mount-point "/home/jake/mnt/backups/linux")
-		  (type "ntfs")
-		  (options ""))
-		 (file-system
-		  (device (uuid ""))
-		  (mount-point "/home/jake/mnt/backups/windows-1")
-		  (type "ntfs")
-		  (options ""))
-		 (file-system
-		  (device (uuid ""))
-		  (mount-point "/home/jake/mnt/backups/windows-2")
-		  (type "ntfs")
-		  (options ""))
-		 (file-system
-		  (device (uuid ""))
-		  (mount-point "/home/jake/mnt/backups/windows-3")
-		  (type "ntfs")
-		  (options ""))
-		 (file-system
-		  (device (uuid ""))
-		  (mount-point "/home/jake/mnt/backups/windows-4")
-		  (type "ntfs")
-		  (options ""))
-                 (file-system
-		  (device (uuid "" 'fat))
-                  (mount-point "/efi")
-                  (type "vfat"))) %base-file-systems))
+   (append (list 
+     (file-system
+      (device (uuid ""))
+      (mount-point "/")
+      (type "btrfs")
+      (options "subvol=@,defaults,noatime,compress=zstd"))
+     (file-system
+      (device (uuid ""))
+      (mount-point "/home")
+      (type "btrfs")
+      (options "subvol=@home,defaults,noatime,compress=zstd"))
+     (file-system
+      (device (uuid ""))
+      (mount-point "/gnu")
+      (type "btrfs")
+      (options "subvol=@gnu,defaults,noatime,compress=zstd"))
+     (file-system
+      (device (uuid ""))
+      (mount-point "/var/log")
+      (type "btrfs")
+      (options "subvol=@var_log,defaults,noatime,compress=zstd"))
+     (file-system
+      (device (uuid ""))
+      (mount-point "/home/jake/mnt/local/ssd-2")
+      (type "btrfs")
+      (options "noatime,defaults,compress=zstd"))
+     (file-system
+      (device (uuid ""))
+      (mount-point "/home/jake/mnt/local/ssd-1")
+      (type "btrfs")
+      (options "noatime,defaults,compress=zstd"))
+     (file-system
+      (device (uuid ""))
+      (mount-point "/home/jake/mnt/local/hdd")
+      (type "btrfs")
+      (options "noatime,compress=zstd,autodefrag"))
+     (file-system
+      (device (uuid "00062665-d995-4d16-a789-79553531f511"))
+      (mount-point "/home/jake/mnt/backups/linux")
+      (type "btrfs")
+      (options "noatime,defaults,uid=1000,gid=1000,dmask=022,fmask=133 0 0"))
+     (file-system
+      (device (uuid "2CDBE1A85447D6A8"))
+      (mount-point "/home/jake/mnt/backups/windows-1")
+      (type "ntfs")
+      (options "defaults,uid=1000,gid=1000,dmask=022,fmask=133 0 0"))
+     (file-system
+      (device (uuid "117C86E67259A8DA"))
+      (mount-point "/home/jake/mnt/backups/windows-2")
+      (type "ntfs")
+      (options "defaults,uid=1000,gid=1000,dmask=022,fmask=133 0 0"))
+     (file-system
+      (device (uuid "7E46073C089EA7F6"))
+      (mount-point "/home/jake/mnt/backups/windows-3")
+      (type "ntfs")
+      (options "defaults,uid=1000,gid=1000,dmask=022,fmask=133 0 0"))
+     (file-system
+      (device (uuid "325FA91828E9EB17"))
+      (mount-point "/home/jake/mnt/backups/windows-4")
+      (type "ntfs")
+      (options "defaults,uid=1000,gid=1000,dmask=022,fmask=133 0 0"))
+     (file-system
+      (device (uuid "" 'fat))
+      (mount-point "/efi")
+      (type "vfat"))) 
+    %base-file-systems))
   ;; Specify a swap file for the system, which resides on the
   ;; root file system.
   (swap-devices (list (swap-space (target (uuid "")))))
   ;; Create user with.
   (users (cons (user-account
-		(name "jake")
+        (name "jake")
                 (password (crypt "alice" "$6$abc"))
                 (group "users")
                 (supplementary-groups '("wheel" "netdev" "audio" "video")))
-	       %base-user-accounts))
+           %base-user-accounts))
   ;; (groups %base-groups)
   ;; This is where we specify system-wide packages.
   (packages (append (list
@@ -156,64 +160,60 @@
   ;; NetworkManager, and more.
   (services
    (append (list 
-	     	 (service greetd-service-type
-			  (greetd-configuration
-			   (greeter-supplementary-groups (list
-							  "video"
-                                                          "input"))
-			   (terminals (list (greetd-terminal-configuration
-					     ;; (extra-shepherd-requirement `(seatd))
-					     (terminal-vt "1")
-                                             (terminal-switch #t)
-                                             (default-session-command
-					       (greetd-agreety-session
-						(command (greetd-user-session
-                                                 (command (file-append labwc "/bin/labwc"))
-                                                 (command-args '()) 
-                                                 (xdg-session-type "wayland"))))))
-					    (greetd-terminal-configuration
-                                             (terminal-vt "2"))
-                                            (greetd-terminal-configuration
-                                             (terminal-vt "3"))
-                                            (greetd-terminal-configuration
-                                             (terminal-vt "4"))
-                                            (greetd-terminal-configuration
-                                             (terminal-vt "5"))
-					    (greetd-terminal-configuration
-					     (terminal-vt "6"))))))
-		 (service mingetty-service-type (mingetty-configuration (tty "tty7")))
-                 ;;(set-xorg-configuration
-                 ;; (xorg-configuration (keyboard-layout keyboard-layout)))
-		 (modify-services %desktop-services
-				  (delete gdm-service-type)
-				  ;; (delete login-service-type)
-				  (delete mingetty-service-type)
-				  (console-font-service-type config =>
-							     (map (lambda (tty)
-								    (cons tty %default-console-font))
-								  '("tty1"
-								    "tty2"
-								    "tty3"
-								    "tty4"
-								    "tty5"
-								    "tty6"
-								    "tty7")))
-				  (guix-service-type config =>
-						     (guix-configuration (inherit config)
-									 (substitute-urls
-									  (append (list
-										   "https://cache-test.guix.moe"
-                                                                                   "https://cache-fi.guix.moe/"
-                                                                                   "https://nonguix-proxy.ditigal.xyz")
-										  %default-substitute-urls))
-									 (authorized-keys
-									  (append (list
-										   (plain-file
-										    "non-guix.pub"
-										    "(public-key (ecc (curve Ed25519) (q #C1FD53E5D4CE971933EC50C9F307AE2171A2D3B52C804642A7A35F84F3A4EA98#)))")
-										   (plain-file
-										    "guix-moe.pub"
-										    "(public-key (ecc (curve Ed25519) (q #552F670D5005D7EB6ACF05284A1066E52156B51D75DE3EBD3030CD046675D543#)))"))
-										  %default-authorized-guix-keys)))))))
+    (service greetd-service-type
+    (greetd-configuration
+     (greeter-supplementary-groups (list
+       "video"
+       "input"))
+     (terminals (list 
+        (greetd-terminal-configuration
+          ;; (extra-shepherd-requirement `(seatd))
+          (terminal-vt "1")
+          (terminal-switch #t)
+          (default-session-command
+          (greetd-agreety-session
+            (command (greetd-user-session
+              (command (file-append labwc "/bin/labwc"))
+              (command-args '()) 
+              (xdg-session-type "wayland"))))))
+        (greetd-terminal-configuration (terminal-vt "2"))
+        (greetd-terminal-configuration (terminal-vt "3"))
+        (greetd-terminal-configuration (terminal-vt "4")
+        (greetd-terminal-configuration (terminal-vt "5"))
+        (greetd-terminal-configuration (terminal-vt "6")))))))
+       (service mingetty-service-type (mingetty-configuration (tty "tty7"))))
+       ;; (set-xorg-configuration
+       ;;   (xorg-configuration (keyboard-layout keyboard-layout)))
+       (modify-services %desktop-services
+         (delete gdm-service-type)
+         ;; (delete login-service-type)
+         (delete mingetty-service-type)
+         (console-font-service-type config =>
+           (map (lambda (tty)
+             (cons tty %default-console-font))
+               '("tty1"
+                  "tty2"
+                  "tty3"
+                  "tty4"
+                  "tty5"
+                  "tty6"
+                  "tty7")))
+         (guix-service-type config =>
+           (guix-configuration (inherit config)
+             (substitute-urls
+               (append (list
+                 "https://cache-test.guix.moe"
+                 "https://cache-fi.guix.moe/"
+                 "https://nonguix-proxy.ditigal.xyz")
+                 %default-substitute-urls))
+             (authorized-keys
+              (append (list
+                (plain-file
+                 "non-guix.pub"
+                 "(public-key (ecc (curve Ed25519) (q #C1FD53E5D4CE971933EC50C9F307AE2171A2D3B52C804642A7A35F84F3A4EA98#)))")
+                (plain-file
+                 "guix-moe.pub"
+                 "(public-key (ecc (curve Ed25519) (q #552F670D5005D7EB6ACF05284A1066E52156B51D75DE3EBD3030CD046675D543#)))"))
+              %default-authorized-guix-keys)))))))
    ;; Allow resolution of '.local' host names with mDNS.
    (name-service-switch %mdns-host-lookup-nss))
