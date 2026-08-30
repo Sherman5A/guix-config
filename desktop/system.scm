@@ -20,8 +20,6 @@
              (gnu packages gnome-xyz)
              (gnu packages xorg)
              (guix utils)
-             (holo gtk)
-             (holo wm)
              (nongnu packages linux)
              (nongnu system linux-initrd))
 (use-service-modules desktop sddm xorg virtualization spice)
@@ -52,78 +50,62 @@
      (list 
       (menu-entry
        (label "Windows")
-       (device (uuid "" 'fat))
-       (chainloader "/efi/Microsoft/Boot/bootmgfw.efi"))))))
+       (device (uuid "2D27-BD02" 'fat))
+       (chain-loader "/efi/Microsoft/Boot/bootmgfw.efi"))))))
   (file-systems
    (append (list 
      (file-system
-      (device (uuid ""))
+      (device (uuid "a67103ae-0505-44d4-a234-21bd859089f0"))
       (mount-point "/")
       (type "btrfs")
-      (options "subvol=@,defaults,noatime,compress=zstd"))
+      (flags '(no-atime))
+      (options "subvol=@,compress=zstd"))
      (file-system
-      (device (uuid ""))
+      (device (uuid "a67103ae-0505-44d4-a234-21bd859089f0"))
       (mount-point "/home")
       (type "btrfs")
-      (options "subvol=@home,defaults,noatime,compress=zstd"))
+      (flags '(no-atime))
+      (options "subvol=@home,compress=zstd"))
      (file-system
-      (device (uuid ""))
+      (device (uuid "a67103ae-0505-44d4-a234-21bd859089f0"))
       (mount-point "/gnu")
       (type "btrfs")
-      (options "subvol=@gnu,defaults,noatime,compress=zstd"))
+      (flags '(no-atime))
+      (options "subvol=@gnu,compress=zstd"))
      (file-system
-      (device (uuid ""))
+      (device (uuid "a67103ae-0505-44d4-a234-21bd859089f0"))
       (mount-point "/var/log")
       (type "btrfs")
-      (options "subvol=@var_log,defaults,noatime,compress=zstd"))
+      (flags '(no-atime))
+      (options "subvol=@var_log,compress=zstd"))
      (file-system
-      (device (uuid ""))
-      (mount-point "/home/jake/mnt/local/ssd-2")
-      (type "btrfs")
-      (options "noatime,defaults,compress=zstd"))
-     (file-system
-      (device (uuid ""))
-      (mount-point "/home/jake/mnt/local/ssd-1")
-      (type "btrfs")
-      (options "noatime,defaults,compress=zstd"))
-     (file-system
-      (device (uuid ""))
-      (mount-point "/home/jake/mnt/local/hdd")
-      (type "btrfs")
-      (options "noatime,compress=zstd,autodefrag"))
-     (file-system
-      (device (uuid "00062665-d995-4d16-a789-79553531f511"))
-      (mount-point "/home/jake/mnt/backups/linux")
-      (type "btrfs")
-      (options "noatime,defaults,uid=1000,gid=1000,dmask=022,fmask=133 0 0"))
-     (file-system
-      (device (uuid "2CDBE1A85447D6A8"))
+      (device (uuid "2CDBE1A85447D6A8" 'ntfs))
       (mount-point "/home/jake/mnt/backups/windows-1")
       (type "ntfs")
-      (options "defaults,uid=1000,gid=1000,dmask=022,fmask=133 0 0"))
+      (options "uid=1000,gid=1000,dmask=022,fmask=133 0 0"))
      (file-system
-      (device (uuid "117C86E67259A8DA"))
+      (device (uuid "117C86E67259A8DA" 'ntfs))
       (mount-point "/home/jake/mnt/backups/windows-2")
       (type "ntfs")
-      (options "defaults,uid=1000,gid=1000,dmask=022,fmask=133 0 0"))
+      (options "uid=1000,gid=1000,dmask=022,fmask=133 0 0"))
      (file-system
-      (device (uuid "7E46073C089EA7F6"))
+      (device (uuid "7E46073C089EA7F6" 'ntfs))
       (mount-point "/home/jake/mnt/backups/windows-3")
       (type "ntfs")
-      (options "defaults,uid=1000,gid=1000,dmask=022,fmask=133 0 0"))
+      (options "uid=1000,gid=1000,dmask=022,fmask=133 0 0"))
      (file-system
-      (device (uuid "325FA91828E9EB17"))
+      (device (uuid "325FA91828E9EB17" 'ntfs))
       (mount-point "/home/jake/mnt/backups/windows-4")
       (type "ntfs")
-      (options "defaults,uid=1000,gid=1000,dmask=022,fmask=133 0 0"))
+      (options "uid=1000,gid=1000,dmask=022,fmask=133 0 0"))
      (file-system
-      (device (uuid "" 'fat))
+      (device (uuid "4915-3B49" 'fat))
       (mount-point "/efi")
       (type "vfat"))) 
     %base-file-systems))
   ;; Specify a swap file for the system, which resides on the
   ;; root file system.
-  (swap-devices (list (swap-space (target (uuid "")))))
+  (swap-devices (list (swap-space (target (uuid "736d3da0-2b3d-4941-9a8b-e322a93005d5")))))
   ;; Create user with.
   (users (cons (user-account
         (name "jake")
@@ -142,12 +124,10 @@
                      swaybg
                      foot
                      labwc
-                     sfwbar
                      htop
                      helix
                      papirus-icon-theme
                      arc-theme
-                     raleigh-theme
                      hackneyed-x11-cursors
                      font-adobe-source-code-pro
                      git
@@ -178,9 +158,9 @@
               (xdg-session-type "wayland"))))))
         (greetd-terminal-configuration (terminal-vt "2"))
         (greetd-terminal-configuration (terminal-vt "3"))
-        (greetd-terminal-configuration (terminal-vt "4")
+        (greetd-terminal-configuration (terminal-vt "4"))
         (greetd-terminal-configuration (terminal-vt "5"))
-        (greetd-terminal-configuration (terminal-vt "6")))))))
+        (greetd-terminal-configuration (terminal-vt "6"))))))
        (service mingetty-service-type (mingetty-configuration (tty "tty7"))))
        ;; (set-xorg-configuration
        ;;   (xorg-configuration (keyboard-layout keyboard-layout)))
