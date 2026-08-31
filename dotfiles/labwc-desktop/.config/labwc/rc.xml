@@ -1,0 +1,270 @@
+<?xml version="1.0"?>
+
+<!--
+  This is a very simple config file with many options missing. For a complete
+  set of options with comments, see docs/rc.xml.all
+-->
+
+<labwc_config>
+
+  <core>
+    <decoration>server</decoration>
+    <gap>0</gap>
+    <adaptiveSync>yes</adaptiveSync>
+  </core>
+
+  <placement>
+    <policy>automatic</policy>
+  </placement>
+
+  <windowSwitcher preview="yes" outlines="yes">
+      <osd show="yes" />
+      <!-- <fields>
+        <field content="identifier" width="50%" />
+        <field content="title" width="50%" />
+        <field content="type" width="50%" />
+      </fields> -->
+  </windowSwitcher>
+
+  <windowRules>
+    <windowRule identifier="*" serverDecoration="yes">
+    </windowRule>
+  </windowRules>
+
+  <theme>
+    <name>Dark</name>
+    <cornerRadius>0</cornerRadius>
+    <!-- <font name="Terminus" size="13" />-->
+    <keepBorder>yes</keepBorder>
+    <icon>Papirus-Dark</icon>
+  </theme>
+
+  <focus>
+    <followMouse>yes</followMouse>
+    <raiseOnFocus>no</raiseOnFocus>
+  </focus>	
+
+  <snapping>
+     <range inner="10" outer="10" />
+     <topMaximize>yes</topMaximize>
+  </snapping>
+
+  <resistance>
+    <windowEdgeStrength>30</windowEdgeStrength>
+    <screenEdgeStrength>-15</screenEdgeStrength>
+  </resistance>
+
+  <desktops>
+    <popupTime>1000</popupTime>
+    <names>
+      <name>1</name>
+      <name>2</name>
+      <name>3</name>
+    </names>
+  </desktops>
+
+  <!-- Regions -->
+  <regions>
+    <region name="SmallWindow" x="0%"  y="0%"  height="50%"  width="50%" />
+  </regions>
+
+  <keyboard>
+    <default />
+    <repeatRate>33</repeatRate>
+    <repeatDelay>250</repeatDelay>
+    <!-- Shortcuts -->
+    <keybind key="W-Return">
+      <action name="Execute" command="foot" />
+    </keybind>
+    <keybind key="W-S-f">
+      <action name="Execute" command="firefox" />
+    </keybind>
+    <keybind key="W-S-l">
+        <action name="Execute" command="activate-lock" />
+    </keybind>
+    <keybind key="W-A-l" onRelease="yes">
+        <action name="Execute" command="loginctl suspend" />
+    </keybind>
+    <keybind key="A-Tab">
+      <!--<action name="Execute" command="killall -SIGUSR1 sfwbar" />-->
+    </keybind>
+    <keybind key="W-Tab">
+      <action name="NextWindow" />
+    </keybind>
+
+    <keybind key="A-Space">
+    </keybind>
+    <!--
+      Remove a previously defined keybind
+      A shorter alternative is <keybind key="W-F4" />
+    -->
+    <keybind key="W-F4" />
+
+    <!-- Add launcher keybind -->
+
+    <!--
+    <keybind key="W-p">
+      <action name="Open launcher" />
+    </keybind>
+    -->
+
+    <!-- Brightness control -->
+    <keybind key="XF86_MonBrightnessDown">
+      <action name="Execute" command="brightnessctl s 10%-" />
+    </keybind>
+    <keybind key="XF86_MonBrightnessUp">
+      <action name="Execute" command="brightnessctl s +10%" />
+    </keybind>
+
+    <!-- Volume control -->
+    <keybind key="XF86_AudioLowerVolume">
+      <action name="Execute" command="pulsemixer --change-volume -5" />
+    </keybind>
+    <keybind key="XF86_AudioRaiseVolume">
+      <action name="Execute" command="pulsemixer --change-volume 5" />
+    </keybind>
+    <keybind key="XF86_AudioMute">
+      <action name="Execute" command="pulsemixer --toggle-mute" />
+    </keybind>
+
+    <keybind key="W-q">
+      <action name="Close" />
+    </keybind>
+    <keybind key="W-a">
+      <action name="ToggleMaximize" />
+    </keybind>
+    <keybind key="W-d">
+      <action name="ToggleDecorations" />
+    </keybind>
+    <keybind key="W-f">
+      <action name="ToggleMaximize" />
+    </keybind>
+    <keybind key="W-t">
+      <action name="ToggleFullscreen" />
+    </keybind>
+    <keybind key="W-C-A-q">
+      <action name="Exit" />
+    </keybind>
+    <keybind key="W-C-A-r">
+      <action name="Reconfigure" />
+      <!-- Reconfigure the bar -->
+      <action name="Execute" command="killall -SIGHUP sfwbar" />
+    </keybind>
+    <keybind key="W-m">
+      <action name="ToggleShade" />
+    </keybind>
+    <!-- Workspaces -->
+    <keybind key="W-1">
+      <action name="GoToDesktop" to="1" />
+    </keybind>
+    <keybind key="W-S-1">
+      <action name="SendToDesktop" to="1" follow="no"  />
+    </keybind>
+
+    <keybind key="W-2">
+      <action name="GoToDesktop" to="2" />
+    </keybind>
+    <keybind key="W-S-2">
+      <action name="SendToDesktop" to="2" follow="no"  />
+    </keybind>
+
+    <keybind key="W-3">
+      <action name="GoToDesktop" to="3" />
+    </keybind>
+    <keybind key="W-S-3">
+      <action name="SendToDesktop" to="3" follow="no" />
+    </keybind>
+
+    <!-- Window Positioning -->
+
+    <!-- Move Positioning -->
+    <keybind key="W-h">
+      <action name="MoveToEdge" direction="left" />
+    </keybind>
+    <keybind key="W-l">
+      <action name="MoveToEdge" direction="right" />
+    </keybind>
+    <keybind key="W-k">
+      <action name="MoveToEdge" direction="up" />
+    </keybind>
+    <keybind key="W-j">
+      <action name="MoveToEdge" direction="down" />
+    </keybind>
+
+    <!-- Snap positioning -->
+    <keybind key="W-S-h">
+      <action name="SnapToEdge" direction="left" />
+    </keybind>
+    <keybind key="W-S-l">
+      <action name="SnapToEdge" direction="right" />
+    </keybind>
+    <keybind key="W-S-k">
+      <action name="SnapToEdge" direction="up" />
+    </keybind>
+    <keybind key="W-S-j">
+      <action name="SnapToEdge" direction="down" />
+    </keybind>
+
+    <keybind key="W-up">
+      <action name="None" />
+    </keybind>
+    <keybind key="W-left">
+      <action name="None" />
+    </keybind>
+    <keybind key="W-down">
+      <action name="None" />
+    </keybind>
+    <keybind key="W-right">
+      <action name="None" />
+    </keybind>
+
+   <keybind key="A-up">
+      <action name="None" />
+    </keybind>
+    <keybind key="A-left">
+      <action name="None" />
+    </keybind>
+    <keybind key="A-down">
+      <action name="None" />
+    </keybind>
+    <keybind key="A-right">
+      <action name="None" />
+    </keybind>
+
+    <!-- Region positioning -->
+    <keybind key="W-s">
+      <action name="SnapToRegion" region="SmallWindow" />
+    </keybind>
+  </keyboard>
+
+  <mouse>
+    <default />
+    <context name="Frame">
+      <mousebind button="W-Left" action="Drag">
+        <action name="Move" />
+      </mousebind>
+      <mousebind button="W-Right" action="Drag">
+        <action name="Resize" />
+      </mousebind>
+      <mousebind button="A-Left" action="Drag">
+        <action name="None" />
+      </mousebind>
+      <mousebind button="A-Right" action="Drag">
+        <action name="None" />
+      </mousebind>
+    </context>
+    <context name="root">
+      <mousebind button="right" action="press">
+        <action name="showmenu" menu="systemMenu" />
+      </mousebind>
+    </context>
+  </mouse>
+
+  <libinput>
+    <device>
+      <scrollFactor>0.75</scrollFactor>
+      <accelProfile>flat</accelProfile>
+    </device>
+  </libinput>
+</labwc_config>
+

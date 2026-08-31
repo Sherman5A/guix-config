@@ -1,0 +1,24 @@
+define BatChargeStr = Str(10*BatLeft/BatTotal,0)
+define BatIcon = "battery-level-" + BatChargeStr + "0" + 
+        If($BatState = "Discharging","",
+          If(BatChargeStr = "10","","-charging"))
+
+scanner {
+  file("/sys/class/power_supply/BAT0/energy_now") { BatLeft = Grab(First) }
+  file("/sys/class/power_supply/BAT0/status") { BatState = RegEx("^(.*)$",First) }
+  file("/sys/class/power_supply/BAT0/energy_full") { BatTotal = Grab(First) }
+}
+
+layout {
+  style = "module"
+  interval = 10000
+  button "batteryIcon" {
+    style = If($BatState="","hidden","module")
+    value = BatIcon
+  }
+  label "battery" {
+    style = If($BatState="","hidden","module")
+    action[0] = Function "BatteryInitScanner"
+    value = Str(100*BatLeft/BatTotal,0) + "%"
+  }
+}

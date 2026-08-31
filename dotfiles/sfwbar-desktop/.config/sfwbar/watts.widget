@@ -1,0 +1,18 @@
+scanner {
+  File("/sys/class/power_supply/BAT0/power_now", NoGlob) {
+    MicroWatts = Grab(Sum)
+  }
+}
+
+module("watts")
+
+Set Watts = MicroWatts / 1000000
+
+layout {
+  label {
+    style="module"
+    # Update every 10 seconds
+    interval = 10000
+    value = If(Watts = 0, "AC", Str(Watts, 2) + " W")
+  }
+}

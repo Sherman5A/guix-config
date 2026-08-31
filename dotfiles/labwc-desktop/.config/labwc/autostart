@@ -1,0 +1,58 @@
+# Autostart file
+systemctl --user --no-block start labwc-session.target &
+# Daemons
+# Pipewire
+# exec gentoo-pipewire-launcher restart &
+# Start foot daemon
+# foot --server &
+# gammastep-indicator &
+
+# Configs
+# Set wallpaper
+# swaybg -c '#113344' >/dev/null 2>&1 &
+# Big backgrounds
+# swaybg -i /home/jake/Pictures/ryo.jpg -m fit -c "#DABAD2" >/dev/null 2>&1 &
+# swaybg -i /home/jake/Downloads/__gotoh_hitori_bocchi_the_rock_drawn_by_nikyuppa__c5d25ce7fa901e75b98f4961020bbb10.jpg -m fill -c "#DABAD2" >/dev/null 2>&1 &
+# swaybg -i /home/jake/Downloads/__gotoh_hitori_bocchi_the_rock_drawn_by_nikyuppa__c5d25ce7fa901e75b98f4961020bbb10.jpg -m fill -c "#DABAD2" >/dev/null 2>&1 &
+# swaybg -i /home/jake/Downloads/nijika-dorito-2.jpg -m fill -c "#DABAD2" >/dev/null 2>&1 &
+# Tiling background
+# swaybg -i /home/jake/Downloads/1673894386291.png -m tile >/dev/null 2>&1 &
+# Gup background
+swaybg -i /home/jake/Pictures/Wallpapers/tiger.png -m fill 2>&1 &
+
+# Configure output directives such as mode, position, scale and transform.
+# Use wlr-randr to get your output names
+# Example ~/.config/kanshi/config below:
+#   profile {
+#     output HDMI-A-1 position 1366,0
+#     output eDP-1 position 0,0
+#   }
+
+#wlr-randr --output eDP-1 --scale 1.2
+
+# kanshi >/dev/null 2>&1 &
+
+# Launch a panel such as yambar or waybar.
+# waybar >/dev/null 2>&1 &
+sfwbar >/dev/null 2>&1 &
+nm-applet >/dev/null 2>&1 &
+# sfwbar -f /home/jake/.config/sfwbar/simple.config 2>&1 &
+
+# Enable notifications. Typically GNOME/KDE application notifications go
+# through the org.freedesktop.Notifications D-Bus API and require a client such
+# as mako to function correctly. Thunderbird is an example of this.
+# mako >/dev/null 2>&1 &
+
+# Lock screen after 5 minutes; turn off display after another 5 minutes.
+#
+# Note that in the context of idle system power management, it is *NOT* a good
+# idea to turn off displays by 'disabling outputs' for example by
+# `wlr-randr --output <whatever> --off` because this re-arranges views
+# (since a837fef). Instead use a wlr-output-power-management client such as
+# https://git.sr.ht/~leon_plickat/wlopm
+# swayidle -w \
+#	timeout 300 'swaylock -f -c 000000' \
+#	timeout 600 'wlopm --off \*' \
+#	resume 'wlopm --on \*' \
+#	before-sleep 'swaylock -f -c 000000' >/dev/null 2>&1 &
+
