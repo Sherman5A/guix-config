@@ -1,0 +1,6 @@
+# Stow config, varies depending on where repo cloned
+.stowrc
+# Emacs per-device files
+**/recentf
+**/places
+
