@@ -5,6 +5,7 @@
              (gnu system nss)
              (gnu packages linux)
              (gnu packages xfce)
+             (gnu packages polkit)
              (gnu packages wm)
              (gnu packages emacs)
              (gnu packages fonts)
@@ -19,10 +20,13 @@
              (gnu services pm)
              (gnu packages gnome-xyz)
              (gnu packages xorg)
+             (gnu packages cryptsetup)
              (guix utils)
+             (holo gtk)
+             (holo wm)
              (nongnu packages linux)
              (nongnu system linux-initrd))
-(use-service-modules desktop sddm xorg virtualization spice)
+(use-service-modules desktop sddm xorg virtualization spice sound)
 (use-package-modules gnome)
 
 (define %default-console-font
@@ -88,14 +92,13 @@
   (swap-devices (list (swap-space (target (uuid "736d3da0-2b3d-4941-9a8b-e322a93005d5")))))
   ;; Create user with.
   (users (cons (user-account	
-        (name "test")
-        (group "users")
-         (supplementary-groups '("wheel" "netdev" "audio" "video")))
-           %base-user-accounts))
+    (name "jake")
+    (group "users")
+    (supplementary-groups '("wheel" "netdev" "audio" "video")))
+   %base-user-accounts))
   ;; (groups %base-groups)
   ;; This is where we specify system-wide packages.
   (packages (append (list
-                     ;; for user mounts
                      gvfs
                      font-terminus
                      kanshi
@@ -103,6 +106,8 @@
                      swaybg
                      foot
                      labwc
+                     polkit-gnome
+                     sfwbar
                      htop
                      helix
                      papirus-icon-theme
@@ -111,8 +116,10 @@
                      font-adobe-source-code-pro
                      git
                      openssh
-                     gnupg) %base-packages))
-
+                     raleigh-theme
+                     cryptsetup
+                     gnupg)
+                     %base-packages))
   ;; labwc only
   ;; Uses "desktop" services, which
   ;; include the log-in service, networking with
@@ -161,9 +168,9 @@
            (guix-configuration (inherit config)
              (substitute-urls
                (append (list
+                 "https://substitutes.nonguix.org"
                  "https://cache-test.guix.moe"
-                 "https://cache-fi.guix.moe/"
-                 "https://nonguix-proxy.ditigal.xyz")
+                 "https://cache-fi.guix.moe")
                  %default-substitute-urls))
              (authorized-keys
               (append (list
