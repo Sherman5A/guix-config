@@ -17,6 +17,7 @@
              (gnu packages qt)
              (gnu packages pdf)
              (gnu packages xfce)
+             (gnu packages bittorrent)
              (gnu packages commencement)
              (gnu packages guile)
              (gnu packages messaging)
@@ -82,6 +83,8 @@
                   poppler
                   imv
                   mpv
+                  qbittorrent
+                  thunar-volman
                   wlr-randr
                   font-iosevka
                   font-terminus

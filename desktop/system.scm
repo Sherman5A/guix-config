@@ -5,7 +5,7 @@
              (gnu system nss)
              (gnu packages linux)
              (gnu packages xfce)
-             (gnu packages polkit)
+             (gnu packages mate)
              (gnu packages wm)
              (gnu packages emacs)
              (gnu packages fonts)
@@ -111,7 +111,7 @@
                           swaybg
                           foot
                           labwc
-                          polkit-gnome
+                          mate-polkit
                           sfwbar
                           htop
                           helix
@@ -129,7 +129,10 @@
   ;; include the log-in service, networking with
   ;; NetworkManager, and more.
   (services
-   (append (list (service greetd-service-type
+   (append (list (service openssh-service-type
+                          (openssh-configuration (permit-root-login #f)
+                                                 (password-authentication? #f)))
+                 (service greetd-service-type
                           (greetd-configuration (greeter-supplementary-groups (list
                                                                                "video"
                                                                                "input"))
