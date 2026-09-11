@@ -1,13 +1,12 @@
 # Autostart file
-systemctl --user --no-block start labwc-session.target &
 # Daemons
-# Pipewire
-# exec gentoo-pipewire-launcher restart &
 # Start foot daemon
 # foot --server &
+# Polkit
+/run/current-system/profile/libexec/polkit-mate-authentication-agent-1 &
 # gammastep-indicator &
 
-# Configs
+# Desktop
 # Set wallpaper
 # swaybg -c '#113344' >/dev/null 2>&1 &
 # Big backgrounds
@@ -28,21 +27,22 @@ swaybg -i /home/jake/Pictures/Wallpapers/tiger.png -m fill 2>&1 &
 #     output eDP-1 position 0,0
 #   }
 
-#wlr-randr --output eDP-1 --scale 1.2
-
+# wlr-randr --output eDP-1 --scale 1.2
 # kanshi >/dev/null 2>&1 &
 
 # Launch a panel such as yambar or waybar.
-# waybar >/dev/null 2>&1 &
 sfwbar >/dev/null 2>&1 &
-nm-applet >/dev/null 2>&1 &
 # sfwbar -f /home/jake/.config/sfwbar/simple.config 2>&1 &
+
+# Applets
+nm-applet >/dev/null 2>&1 &
 
 # Enable notifications. Typically GNOME/KDE application notifications go
 # through the org.freedesktop.Notifications D-Bus API and require a client such
 # as mako to function correctly. Thunderbird is an example of this.
 # mako >/dev/null 2>&1 &
 
+# Idle
 # Lock screen after 5 minutes; turn off display after another 5 minutes.
 #
 # Note that in the context of idle system power management, it is *NOT* a good
