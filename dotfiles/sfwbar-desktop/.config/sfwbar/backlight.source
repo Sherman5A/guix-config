@@ -1,0 +1,60 @@
+#Api2
+
+module("dbus")
+module("bsdctl")
+
+Var BacklightSrc, BacklightMax, BacklightName;
+
+Set BacklightPresent = (ident(DbusCall) & BacklightSrc!='') |
+    (ident(BSDCtl) & BSDCtl("hw.acpi.video.lcd0.brightness")!='');
+
+Set BacklightPct = Val(Read(BacklightSrc))/BacklightMax;
+
+Function BacklightInit() {
+  Var base = "/sys/class/backlight";
+  Var dirs = ls(base);
+  Var i = 0;
+
+  BacklightSrc=''
+  while i<ArraySize(dirs) & Backlightsrc='' {
+    if testfile(base+"/"+dirs[i]+"/actual_brightness") &
+      testfile(base+"/"+dirs[i]+"/max_brightness")
+      {
+        BacklightName = dirs[i]
+        BacklightSrc = base+"/"+BacklightName+"/actual_brightness"
+        BacklightMax = Val(Read(base+"/"+BacklightName+"/max_brightness"))
+        FileTrigger(BacklightSrc, "backlight", 1000)
+        SetBacklight(Val(Read(BacklightSrc))/BacklightMax)
+        EmitTrigger( "backlight")
+      }
+    i = i + 1
+  }
+}
+
+Function SetBacklight ( pct )
+{
+  Var SessionInterface = ["system",
+      "org.freedesktop.login1",
+      "/org/freedesktop/login1/session/auto",
+      "org.freedesktop.login1.Session"];
+  If BacklightMax > 0 {
+    DBusCall(SessionInterface, "SetBrightness", "(ssu)",
+           ["backlight", BacklightName,
+           BacklightMax * Min(1, Max(0.3, pct ))])
+    EmitTrigger("backlight")
+  }
+}
+
+PopUp("BacklightPopup") {
+  style = "backlight_popup"
+  image {
+    value = "display-brightness"
+  }
+  scale {
+    style = 'volume_scale'
+    value = Val(Read(BacklightSrc))/BacklightMax
+    trigger = "backlight"
+    action[LeftClick] = SetBacklight(GtkEvent("dir"))
+  }
+}
+

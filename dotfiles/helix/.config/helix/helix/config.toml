@@ -1,0 +1,8 @@
+[editor]
+scrolloff = 7
+rulers = [80, 110]
+shell = ["bash", "-c"]
+bufferline="multiple"
+
+[editor.cursor-shape]
+insert = "underline"

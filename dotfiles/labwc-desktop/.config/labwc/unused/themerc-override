@@ -1,0 +1,38 @@
+# 
+# border.width: 1
+# padding.height: 3
+# 
+# # Window items
+# 
+# # window.active.border.color: #f69291
+# # window.active.border.color: #4f5181
+# window.active.border.color: #DABAD2
+# window.inactive.border.color: #1a1a28
+# 
+# window.active.title.bg.color: #6a87d7
+# window.inactive.title.bg.color: #1a1a28
+# 
+# # Window text colour
+# window.active.label.text.color: #ffffff
+# window.inactive.label.text.color: #ffffff
+# 
+# window.active.button.unpressed.image.color: #56565c
+# window.inactive.button.unpressed.image.color: #313135
+# 
+# window.active.button.unpressed.image.color: #404fad
+# window.inactive.button.unpressed.image.color: #
+# 
+# # OSD items
+# 
+# osd.bg.color: #1a1a28
+# osd.border.color: #DABAD2
+# osd.border.width: 3
+# osd.window-switcher.padding: 25
+# osd.window-switcher.item.padding.x: 0
+# osd.window-switcher.item.padding.y: 5
+# 
+menu.items.bg.color: #f7eae8
+menu.items.active.bg.color: #fde49a
+
+osd.bg.color: #f7eae8
+
