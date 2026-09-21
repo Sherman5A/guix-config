@@ -68,7 +68,7 @@
                  emacs-helpful
                  emacs-jinx
                  emacs-pinentry
-		 emacs-apheleia
+                 emacs-apheleia
                  ;; config
                  stow
                  ;; desktop env
@@ -83,6 +83,7 @@
                  exo
                  wlr-randr
                  gammastep
+                 mako
                  ;; applications
                  pinentry
                  keepassxc
@@ -104,7 +105,6 @@
                  steam
                  heroic
                  ;; browsers
-                 ungoogled-chromium
                  firefox
                  ;; media
                  gallery-dl

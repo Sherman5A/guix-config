@@ -19,6 +19,8 @@
 # Gup background
 swaybg -i /home/jake/Pictures/Wallpapers/tiger.png -m fill 2>&1 &
 
+mako &
+
 # Configure output directives such as mode, position, scale and transform.
 # Use wlr-randr to get your output names
 # Example ~/.config/kanshi/config below:
