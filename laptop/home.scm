@@ -26,8 +26,8 @@
              (gnu packages enchant)
              (gnu packages tree-sitter)
              (gnu packages gnupg)
-             (holo gtk)
-             (holo wm))
+             (holo packages gtk)
+             (holo packages wm))
 
 (home-environment
  (packages (list emacs-pgtk

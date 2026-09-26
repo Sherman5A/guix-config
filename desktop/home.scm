@@ -1,11 +1,14 @@
 (use-modules (guix gexp)
+	     (guix channels)
              (gnu home)
              (gnu home services)
+	     (gnu home services guix)
              (gnu home services gnupg)
              (gnu home services shells)
              (gnu home services ssh)
              (gnu home services sound)
              (gnu home services desktop)
+             (gnu packages)
              (gnu packages package-management)
              (gnu packages emacs)
              (gnu packages emacs-xyz)
@@ -36,12 +39,12 @@
              (gnu packages tree-sitter)
              (gnu packages wine)
              (gnu packages gnupg)
-             (nongnu packages game-client)
              (nongnu packages mozilla)
              (nongnu packages compression)
              (xyz jackfaller discord)
-             (holo gtk)
-             (holo wm))
+             (holo nongnu packages game-client)
+             (holo packages gtk)
+             (holo packages wm))
 
 (home-environment
  (packages (list emacs-pgtk
@@ -69,6 +72,7 @@
                  emacs-jinx
                  emacs-pinentry
                  emacs-apheleia
+		 emacs-plantuml-mode
                  ;; config
                  stow
                  ;; desktop env
@@ -80,6 +84,8 @@
                  labwc-menu-generator
                  xfconf
                  xfce4-settings
+                 xfce4-notifyd
+                 libei
                  exo
                  wlr-randr
                  gammastep
@@ -107,7 +113,7 @@
                  ;; browsers
                  firefox
                  ;; media
-                 gallery-dl
+                 (specification->package "gallery-dl@1.32.10")
                  imv
                  mpv
                  poppler
@@ -131,34 +137,62 @@
                  hunspell
                  hunspell-dict-en-gb))
  (services
-  (append (list (service home-bash-service-type
-                         (home-bash-configuration
-                          ;; Set false as using guix system
-                          (guix-defaults? #f)
-                          (variables `(("PS1" . "\\[\\e]0;\\w${GUIX_ENVIRONMENT:+ [env]} - ${TERM} \\l\\a\\]\\u@\\h \\w${GUIX_ENVIRONMENT:+ [env]}\\$ ")))
-                          (aliases '(("grep" . "grep --color=auto")
-                                     ("ip" . "ip -color=auto")
-                                     ("ll" . "ls -l")
-                                     ("ls" . "ls -p --color=auto")))))
-                (simple-service 'env-vars-service
-                                home-environment-variables-service-type
-                                `(("GUIX_SANDBOX_EXTRA_SHARES" . "$HOME/mnt/local/hdd:$HOME/Games")
-                                  ("QT_QPA_PLATFORMTHEME" . "qt5ct")
-                                  ("QT_PLUGIN_PATH" . "$HOME/.guix-home/profile/lib/qt5/plugins")))
-                (service home-dbus-service-type)
-                (service home-pipewire-service-type)
-                (service home-openssh-service-type
-                         (home-openssh-configuration (authorized-keys (list (local-file
-                                                                             "/home/jake/.ssh/laptop.pub")))))
-                (service home-ssh-agent-service-type)
-                (service home-gpg-agent-service-type
-                         (home-gpg-agent-configuration (pinentry-program (file-append
-                                                                          pinentry
-                                                                          "/bin/pinentry-gtk-2"))
-                                                       (extra-content
-                                                        "
+  (append
+   (list
+    (service home-bash-service-type
+	     (home-bash-configuration
+              ;; Set false as using guix system
+              (guix-defaults? #f)
+              (variables
+	       `(("PS1"
+		  . "\\[\\e]0;\\w${GUIX_ENVIRONMENT:+ [env]} - ${TERM} \\l\\a\\]\\u@\\h \\w${GUIX_ENVIRONMENT:+ [env]}\\$ ")))
+              (aliases '(("grep" . "grep --color=auto")
+                         ("ip" . "ip -color=auto")
+                         ("ll" . "ls -l")
+                         ("ls" . "ls -p --color=auto")))))
+    (simple-service 'env-vars-service
+                    home-environment-variables-service-type
+                    `(("GUIX_SANDBOX_EXTRA_SHARES"
+		       . "$HOME/mnt/local/hdd:$HOME/Games")
+                      ("QT_QPA_PLATFORMTHEME" . "qt5ct")
+                      ("QT_PLUGIN_PATH"
+		       . "$HOME/.guix-home/profile/lib/qt5/plugins")))
+    (simple-service 'channels-configuration
+		    home-channels-service-type
+		    (list
+		     (channel
+		      (name 'holo-guix-local)
+		      (branch "main")
+		      (url (string-append "file://" "/home/jake/Source/holo-guix")))
+		     (channel
+		      (name 'nonguix)
+		      (url "https://gitlab.com/nonguix/nonguix")
+		      (introduction
+		       (make-channel-introduction
+			"897c1a470da759236cc11798f4e0a5f7d4d59fbc"
+			(openpgp-fingerprint
+			 "2A39 3FFF 68F4 EF7A 3D29  12AF 6F51 20A0 22FB B2D5"))))
+		     (channel
+		      (name 'guix-discord)
+		      (url "https://github.com/jack-faller/guix-discord")
+		      (introduction
+		       (make-channel-introduction
+			"78e9fecec8b671771153505323f3face650d478a"
+			(openpgp-fingerprint
+			 "D97A 5464 A392 0366 1ED9  5C07 A043 7B42 9C10 4C61"))))))
+    (service home-dbus-service-type)
+    (service home-pipewire-service-type)
+    (service home-openssh-service-type
+	     (home-openssh-configuration
+	      (authorized-keys
+	       (list (local-file "/home/jake/.ssh/laptop.pub")))))
+    (service home-ssh-agent-service-type)
+    (service home-gpg-agent-service-type
+	     (home-gpg-agent-configuration
+	      (pinentry-program
+	       (file-append pinentry "/bin/pinentry-gtk-2"))
+	      (extra-content "
 allow-emacs-pinentry
 allow-loopback-pinentry
 "))))
-          %base-home-services)))
-
+   %base-home-services)))

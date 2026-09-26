@@ -1,0 +1,49 @@
+#gtk-theme-name="Raleigh-Dark"
+#gtk-icon-theme-name="Raleigh"
+#gtk-cursor-theme-name="LHackneyed-Dark"
+
+gtk-color-scheme = "base_color:#232424\nfg_color:#ffffff\ntooltip_fg_color:#ffffff\nselected_bg_color:#49667f\nselected_fg_color:#ffffff\ntext_color:#ffffff\nbg_color:#232424\ntooltip_bg_color:#12110d\nlink_color:#7777ff\nvisited_link_color:#cc929c"
+
+style "default" {
+    GtkWidget::link-color         = @link_color
+    GtkWidget::visited-link-color = @visited_link_color
+
+    bg[NORMAL]        = @bg_color
+    bg[PRELIGHT]      = "#333333"
+    bg[SELECTED]      = @selected_bg_color
+    bg[INSENSITIVE]   = "#434444"
+    bg[ACTIVE]        = "#333333"
+
+    fg[NORMAL]        = @fg_color
+    fg[PRELIGHT]      = @fg_color
+    fg[SELECTED]      = @selected_fg_color
+    fg[INSENSITIVE]   = "#999999"
+    fg[ACTIVE]        = @fg_color
+
+    text[NORMAL]      = @fg_color
+    text[PRELIGHT]    = @fg_color
+    text[SELECTED]    = @selected_fg_color
+    text[INSENSITIVE] = "#999999"
+    text[ACTIVE]      = @fg_color
+
+    base[NORMAL]      = @base_color
+    base[PRELIGHT]    = @base_color
+    base[SELECTED]    = @selected_bg_color
+    base[INSENSITIVE] = "#434444"
+    base[ACTIVE]      = @base_color
+}
+
+class "GtkWidget" style "default"
+
+
+# Make list / tree rows use the lighter background (#434444)
+
+style "treeview" {
+    base[NORMAL]      = "#434444"   # light_base_color
+    base[PRELIGHT]    = "#333333"   # hover (slightly darker)
+    base[ACTIVE]      = "#333333"
+    base[SELECTED]    = @selected_bg_color
+    base[INSENSITIVE] = "#434444"
+}
+
+class "GtkTreeView" style "treeview"

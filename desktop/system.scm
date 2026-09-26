@@ -122,6 +122,7 @@
                          git
                          openssh
                          raleigh-theme
+                         raleigh-olive-theme
                          cryptsetup
                          gnupg) %base-packages))
  ;; labwc only

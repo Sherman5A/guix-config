@@ -19,7 +19,7 @@
 # Gup background
 swaybg -i /home/jake/Pictures/Wallpapers/tiger.png -m fill 2>&1 &
 
-mako &
+$HOME/.guix-home/profile/lib/xfce4/notifyd/xfce4-notifyd &
 
 # Configure output directives such as mode, position, scale and transform.
 # Use wlr-randr to get your output names
