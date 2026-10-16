@@ -58,7 +58,8 @@
         (org-display-inline-images))))
 
   ;; 4. Automatically update diagrams on file save
-  :hook (after-save . my/org-babel-execute-and-redisplay))
+  ;; :hook (after-save . my/org-babel-execute-and-redisplay))
+  (add-hook 'org-babel-after-execute-hook 'org-redisplay-inline-images))
 
 (use-package apheleia
   :init
@@ -251,43 +252,3 @@
 
 (setq epg-pinentry-mode `loopback)
 (pinentry-start)
-
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(safe-local-variable-values
-   '((eval modify-syntax-entry 43 "'") (eval modify-syntax-entry 36 "'")
-     (eval modify-syntax-entry 126 "'")
-     (eval progn (require 'lisp-mode)
-	   (defun emacs27-lisp-fill-paragraph (&optional justify)
-	     (interactive "P")
-	     (or (fill-comment-paragraph justify)
-		 (let
-		     ((paragraph-start
-		       (concat paragraph-start
-			       "\\|\\s-*\\([(;\"]\\|\\s-:\\|`(\\|#'(\\)"))
-		      (paragraph-separate
-		       (concat paragraph-separate
-			       "\\|\\s-*\".*[,\\.]$"))
-		      (fill-column
-		       (if
-			   (and
-			    (integerp emacs-lisp-docstring-fill-column)
-			    (derived-mode-p 'emacs-lisp-mode))
-			   emacs-lisp-docstring-fill-column
-			 fill-column)))
-		   (fill-paragraph justify))
-		 t))
-	   (setq-local fill-paragraph-function
-		       #'emacs27-lisp-fill-paragraph))
-     (geiser-guile-binary "guix" "repl")
-     (eval add-to-list 'completion-ignored-extensions ".go")
-     (geiser-insert-actual-lambda))))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
