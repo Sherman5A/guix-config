@@ -1,8 +1,8 @@
 (use-modules (guix gexp)
-	     (guix channels)
+             (guix channels)
              (gnu home)
              (gnu home services)
-	     (gnu home services guix)
+             (gnu home services guix)
              (gnu home services gnupg)
              (gnu home services shells)
              (gnu home services ssh)
@@ -44,11 +44,12 @@
              (xyz jackfaller discord)
              (holo nongnu packages game-client)
              (holo packages gtk)
+             (holo packages music)
              (holo packages wm))
 
 (home-environment
  (packages (list emacs-pgtk
-  	    	 emacs-paredit
+                 emacs-paredit
                  emacs-vterm
                  emacs-markdown-mode
                  emacs-meow
@@ -72,7 +73,8 @@
                  emacs-jinx
                  emacs-pinentry
                  emacs-apheleia
-		 emacs-plantuml-mode
+                 emacs-auctex
+                 emacs-plantuml-mode
                  ;; config
                  stow
                  ;; desktop env
@@ -85,6 +87,7 @@
                  xfconf
                  xfce4-settings
                  xfce4-notifyd
+                 xfce4-power-manager
                  libei
                  exo
                  wlr-randr
@@ -97,6 +100,7 @@
                  tree-sitter
                  discord
                  wine64
+                 (specification->package "fooyin@0.14.1")
                  ;; compression
                  xarchiver
                  unzip
@@ -126,7 +130,7 @@
                  font-openmoji
                  font-adobe-source-code-pro
                  ;; themes & icons
-                 qt5ct
+                 qt6ct
                  papirus-icon-theme
                  arc-theme
                  raleigh-theme
@@ -140,12 +144,12 @@
   (append
    (list
     (service home-bash-service-type
-	     (home-bash-configuration
+             (home-bash-configuration
               ;; Set false as using guix system
               (guix-defaults? #f)
               (variables
-	       `(("PS1"
-		  . "\\[\\e]0;\\w${GUIX_ENVIRONMENT:+ [env]} - ${TERM} \\l\\a\\]\\u@\\h \\w${GUIX_ENVIRONMENT:+ [env]}\\$ ")))
+               `(("PS1"
+                  . "\\[\\e]0;\\w${GUIX_ENVIRONMENT:+ [env]} - ${TERM} \\l\\a\\]\\u@\\h \\w${GUIX_ENVIRONMENT:+ [env]}\\$ ")))
               (aliases '(("grep" . "grep --color=auto")
                          ("ip" . "ip -color=auto")
                          ("ll" . "ls -l")
@@ -153,45 +157,45 @@
     (simple-service 'env-vars-service
                     home-environment-variables-service-type
                     `(("GUIX_SANDBOX_EXTRA_SHARES"
-		       . "$HOME/mnt/local/hdd:$HOME/Games")
-                      ("QT_QPA_PLATFORMTHEME" . "qt5ct")
+                       . "$HOME/mnt/local/hdd:$HOME/Games")
+                      ("QT_QPA_PLATFORMTHEME" . "qt6ct")
                       ("QT_PLUGIN_PATH"
-		       . "$HOME/.guix-home/profile/lib/qt5/plugins")))
+                       . "$HOME/.guix-home/profile/lib/qt6/plugins")))
     (simple-service 'channels-configuration
-		    home-channels-service-type
-		    (list
-		     (channel
-		      (name 'holo-guix-local)
-		      (branch "main")
-		      (url (string-append "file://" "/home/jake/Source/holo-guix")))
-		     (channel
-		      (name 'nonguix)
-		      (url "https://gitlab.com/nonguix/nonguix")
-		      (introduction
-		       (make-channel-introduction
-			"897c1a470da759236cc11798f4e0a5f7d4d59fbc"
-			(openpgp-fingerprint
-			 "2A39 3FFF 68F4 EF7A 3D29  12AF 6F51 20A0 22FB B2D5"))))
-		     (channel
-		      (name 'guix-discord)
-		      (url "https://github.com/jack-faller/guix-discord")
-		      (introduction
-		       (make-channel-introduction
-			"78e9fecec8b671771153505323f3face650d478a"
-			(openpgp-fingerprint
-			 "D97A 5464 A392 0366 1ED9  5C07 A043 7B42 9C10 4C61"))))))
+                    home-channels-service-type
+                    (list
+                     (channel
+                      (name 'holo-guix-local)
+                      (branch "main")
+                      (url (string-append "file://" "/home/jake/Source/holo-guix")))
+                     (channel
+                      (name 'nonguix)
+                      (url "https://gitlab.com/nonguix/nonguix")
+                      (introduction
+                       (make-channel-introduction
+                        "897c1a470da759236cc11798f4e0a5f7d4d59fbc"
+                        (openpgp-fingerprint
+                         "2A39 3FFF 68F4 EF7A 3D29  12AF 6F51 20A0 22FB B2D5"))))
+                     (channel
+                      (name 'guix-discord)
+                      (url "https://github.com/jack-faller/guix-discord")
+                      (introduction
+                       (make-channel-introduction
+                        "78e9fecec8b671771153505323f3face650d478a"
+                        (openpgp-fingerprint
+                         "D97A 5464 A392 0366 1ED9  5C07 A043 7B42 9C10 4C61"))))))
     (service home-dbus-service-type)
     (service home-pipewire-service-type)
     (service home-openssh-service-type
-	     (home-openssh-configuration
-	      (authorized-keys
-	       (list (local-file "/home/jake/.ssh/laptop.pub")))))
+             (home-openssh-configuration
+              (authorized-keys
+               (list (local-file "/home/jake/.ssh/laptop.pub")))))
     (service home-ssh-agent-service-type)
     (service home-gpg-agent-service-type
-	     (home-gpg-agent-configuration
-	      (pinentry-program
-	       (file-append pinentry "/bin/pinentry-gtk-2"))
-	      (extra-content "
+             (home-gpg-agent-configuration
+              (pinentry-program
+               (file-append pinentry "/bin/pinentry-gtk-2"))
+              (extra-content "
 allow-emacs-pinentry
 allow-loopback-pinentry
 "))))
