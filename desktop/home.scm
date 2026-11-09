@@ -92,7 +92,6 @@
                  exo
                  wlr-randr
                  gammastep
-                 mako
                  ;; applications
                  pinentry
                  keepassxc
