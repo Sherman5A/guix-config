@@ -30,9 +30,10 @@
              (gnu packages chromium)
              (gnu packages image-viewers)
              (gnu packages video)
+	     (gnu packages music)
              (gnu packages ncdu)
              (gnu packages rust-apps)
-             (gnu packages wm)
+             (gnu packages window-management)
              (gnu packages freedesktop)
              (gnu packages hunspell)
              (gnu packages enchant)
@@ -44,7 +45,6 @@
              (xyz jackfaller discord)
              (holo nongnu packages game-client)
              (holo packages gtk)
-             (holo packages music)
              (holo packages wm))
 
 (home-environment
@@ -100,7 +100,7 @@
                  tree-sitter
                  discord
                  wine64
-                 (specification->package "fooyin@0.14.1")
+		 fooyin
                  ;; compression
                  xarchiver
                  unzip
