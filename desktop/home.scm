@@ -30,7 +30,6 @@
              (gnu packages chromium)
              (gnu packages image-viewers)
              (gnu packages video)
-	     (gnu packages music)
              (gnu packages ncdu)
              (gnu packages rust-apps)
              (gnu packages window-management)
@@ -44,6 +43,7 @@
              (nongnu packages compression)
              (xyz jackfaller discord)
              (holo nongnu packages game-client)
+             (holo packages music)
              (holo packages gtk)
              (holo packages wm))
 
@@ -99,7 +99,8 @@
                  tree-sitter
                  discord
                  wine64
-		 fooyin
+                 fooyin-dev-headers
+                 foo-scrobbler-yin
                  ;; compression
                  xarchiver
                  unzip
@@ -166,7 +167,12 @@
                      (channel
                       (name 'holo-guix-local)
                       (branch "main")
-                      (url (string-append "file://" "/home/jake/Source/holo-guix")))
+                      (url (string-append "file://" "/home/jake/Source/holo-guix"))
+                      (introduction
+                       (make-channel-introduction
+                        "0577b714400845460a53b88be285a8cbae3c788b"
+                        (openpgp-fingerprint
+                         "13D6 D1F3 D74F 7FBD BBB4  D160 C283 60B4 633B 543C"))))
                      (channel
                       (name 'nonguix)
                       (url "https://gitlab.com/nonguix/nonguix")
